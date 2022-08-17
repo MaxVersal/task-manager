@@ -29,7 +29,7 @@ public class Main {
         manager.printInfoEpic();
 
         subTask2.setProgress("DONE");
-        manager.updateSub(subTask2);
+
 
         manager.printInfoEpic();
 
