@@ -1,4 +1,8 @@
-package tasks;
+package manager;
+
+import tasks.EpicTask;
+import tasks.SubTask;
+import tasks.Task;
 
 import java.util.HashMap;
 
@@ -99,23 +103,23 @@ public class Manager {
         int quantityINPROGRESS = 0;
         int quantityNEW = 0;
         for (SubTask sub : epicTask.getSubs()) {
-            if (sub.progress.equals("IN_PROGRESS")){
+            if (sub.getProgress().equals("IN_PROGRESS")){
                 quantityINPROGRESS += 1;
-            } else if (sub.progress.equals("DONE")){
+            } else if (sub.getProgress().equals("DONE")){
                 quantityDONE += 1;
-            } else if(sub.progress.equals("NEW")) {
+            } else if(sub.getProgress().equals("NEW")) {
                 quantityNEW += 1;
             }
         }
 
         if (quantityINPROGRESS > 0){
-            epicTask.progress = "IN_PROGRESS";
+            epicTask.setProgress("IN_PROGRESS");
         } else if (quantityNEW == epicTask.getSubs().size() || epicTask.getSubs().isEmpty()){
-            epicTask.progress = "NEW";
+            epicTask.setProgress("NEW");
         } else if (quantityDONE == epicTask.getSubs().size()){
-            epicTask.progress = "DONE";
+            epicTask.setProgress("DONE");
         } else {
-            epicTask.progress = "IN_PROGRESS"; // случай, когда у сабтасков статусы NEW И DONE
+            epicTask.setProgress("IN_PROGRESS"); // случай, когда у сабтасков статусы NEW И DONE
         }
 
 
@@ -127,7 +131,7 @@ public class Manager {
 
     public void updateSub(SubTask subTask){
         subTasks.put(subTask.getId(), subTask);
-        updateEpic(epicTasks.get(subTask.epicID));
+        updateEpic(epicTasks.get(subTask.getEpicID()));
     }
 
     public String getSubsFromEpic(EpicTask epicTask){

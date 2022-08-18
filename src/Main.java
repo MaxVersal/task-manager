@@ -1,8 +1,7 @@
-import tasks.Manager;
+import manager.Manager;
 import tasks.EpicTask;
 import tasks.SubTask;
-import tasks.Task;
-import tasks.Manager;
+
 
 public class Main {
 
