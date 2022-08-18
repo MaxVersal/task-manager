@@ -1,5 +1,6 @@
+package tasks;
 public class SubTask extends Task {
-    int epicID;
+     protected int epicID;
 
     public SubTask(String title, String description, String progress, int epicID){
         super( title, description,  progress);

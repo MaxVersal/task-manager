@@ -1,9 +1,11 @@
+package tasks;
+
 import java.util.HashMap;
 
 public class Manager {
-    HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    HashMap<Integer, EpicTask> epicTasks = new HashMap<>();
-    HashMap<Integer, SimpleTask> simpleTasks = new HashMap<>();
+    protected HashMap<Integer, SubTask> subTasks = new HashMap<>();
+    protected HashMap<Integer, EpicTask> epicTasks = new HashMap<>();
+    protected HashMap<Integer, Task> tasks = new HashMap<>();
 
     int newId = 1;
 
@@ -21,7 +23,7 @@ public class Manager {
 
     public void printInfoSimple(){
         System.out.println("Информация о обычных задачах: ");
-        String simpleTasksInfo = simpleTasks.toString();
+        String simpleTasksInfo = tasks.toString();
         System.out.println(simpleTasksInfo);
     }
 
@@ -38,60 +40,52 @@ public class Manager {
     }
 
     public void removeSimple(int id){
-        simpleTasks.remove(id);
+        tasks.remove(id);
     }
 
     public EpicTask getEpicById(int id){
-        for (Integer epicId : epicTasks.keySet()) {
-            if (epicId == id){
-                return epicTasks.get(epicId);
-            }
-        }
-        return null; //если передан не существующий ID, то возвращаем NULL
+        return epicTasks.get(id); //если передан не существующий ID, то возвращаем NULL
     }
 
-    public SimpleTask getSimpleById(int id){
-        for (Integer simpleId : simpleTasks.keySet()) {
-            if (simpleId == id){
-                return simpleTasks.get(simpleId);
-            }
-        }
-        return null;
+    public Task getSimpleById(int id){
+        return tasks.get(id);
     }
 
     public SubTask getSubById(int id){
-        for (Integer subId : subTasks.keySet()) {
-            if (subId == id){
-                return subTasks.get(subId);
-            }
-        }
-        return null;
+        return subTasks.get(id);
     }
 
     public void removeAllSubs(){
         subTasks.clear();
+        for (EpicTask value : epicTasks.values()) {
+            value.getSubs().clear();
+            updateEpic(value);
+        }
     }
 
     public void removeAllEpics(){
+        for (EpicTask value : epicTasks.values()) {
+            value.getSubs().clear();
+        }
         epicTasks.clear();
     }
 
     public void removeAllSimple(){
-        simpleTasks.clear();
+        tasks.clear();
     }
 
-    public void add(SimpleTask simpleTask){
+    public void addTask(Task simpleTask){
         simpleTask.setId(newId++);
-        simpleTasks.put(simpleTask.getId(), simpleTask);
+        tasks.put(simpleTask.getId(), simpleTask);
     }
 
-    public void add(EpicTask epicTask){
+    public void addEpic(EpicTask epicTask){
         epicTask.setId(newId++);
         epicTasks.put(epicTask.getId(), epicTask);
         updateEpic(epicTask);
     }
 
-    public void add(SubTask subTask){
+    public void addSub(SubTask subTask){
         subTask.setId(newId++);
         subTasks.put(subTask.getId(), subTask);
         EpicTask e = epicTasks.get(subTask.getEpicID());
@@ -120,12 +114,15 @@ public class Manager {
             epicTask.progress = "NEW";
         } else if (quantityDONE == epicTask.getSubs().size()){
             epicTask.progress = "DONE";
+        } else {
+            epicTask.progress = "IN_PROGRESS"; // случай, когда у сабтасков статусы NEW И DONE
         }
+
 
     }
 
-    public void updateSimple(SimpleTask simpleTask){
-        simpleTasks.put(simpleTask.getId(), simpleTask);
+    public void updateSimple(Task simpleTask){
+        tasks.put(simpleTask.getId(), simpleTask);
     }
 
     public void updateSub(SubTask subTask){

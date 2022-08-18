@@ -1,3 +1,4 @@
+package tasks;
 public class Task {
     protected String title;
     protected String description;
@@ -40,5 +41,15 @@ public class Task {
 
     public void setProgress(String progress) {
         this.progress = progress;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", progress='" + progress + '\'' +
+                '}';
     }
 }
