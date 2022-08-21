@@ -6,7 +6,7 @@ public class EpicTask extends Task{
 
     protected ArrayList<SubTask> subs;
 
-    public EpicTask(String title, String description, String progress){
+    public EpicTask(String title, String description, Progress progress){
         super(title, description, progress);
         subs = new ArrayList<>();
     }

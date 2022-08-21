@@ -1,11 +1,14 @@
 package tasks;
+import tasks.Progress;
 public class Task {
     protected String title;
     protected String description;
     protected int id;
-    protected String progress;
+    //protected String progress;
 
-    public Task(String title, String description, String progress) {
+    protected Progress progress;
+
+    public Task(String title, String description, Progress progress) {
         this.title = title;
         this.description = description;
         this.progress = progress;
@@ -35,11 +38,11 @@ public class Task {
         this.id = id;
     }
 
-    public String getProgress() {
+    public Progress getProgress() {
         return progress;
     }
 
-    public void setProgress(String progress) {
+    public void setProgress(Progress progress) {
         this.progress = progress;
     }
 
