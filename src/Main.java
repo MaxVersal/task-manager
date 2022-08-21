@@ -1,3 +1,4 @@
+import manager.InMemoryHistoryManager;
 import manager.InMemoryTaskManager;
 import manager.Managers;
 import manager.TaskManager;
@@ -49,6 +50,10 @@ public class Main {
         manager.getSubTaskById(3);
 
         System.out.println(manager.getHistory());
+
+        InMemoryHistoryManager manager1 = Managers.getDefaultHistory();
+
+        manager1.add(epicTask);
 
 
 
