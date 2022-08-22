@@ -4,7 +4,6 @@ public class Task {
     protected String title;
     protected String description;
     protected int id;
-    //protected String progress;
 
     protected Progress progress;
 

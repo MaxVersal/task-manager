@@ -5,50 +5,51 @@ import tasks.SubTask;
 import tasks.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public interface TaskManager {
-    public void printInfoEpicTasks();
+    void printInfoEpicTasks();
 
-    public void printInfoSubTasks();
+    void printInfoSubTasks();
 
-    public void printInfoTask();
+    void printInfoTask();
 
-    public void removeEpicTask(int id);
+    void removeEpicTask(int id);
 
-    public void removeSubTask(int id);
+    void removeSubTask(int id);
 
-    public void removeTask(int id);
+    void removeTask(int id);
 
-    public EpicTask getEpicTaskById(int id);
+    EpicTask getEpicTaskById(int id);
 
-    public Task getTaskById(int id);
+    Task getTaskById(int id);
 
-    public SubTask getSubTaskById(int id);
+    SubTask getSubTaskById(int id);
 
-    public void removeAllSubTasks();
+    void removeAllSubTasks();
 
-    public void removeAllEpicTasks();
+    void removeAllEpicTasks();
 
-    public void removeAllTasks();
+    void removeAllTasks();
 
-    public void addTask(Task simpleTask);
+    void addTask(Task simpleTask);
 
-    public void addEpicTask(EpicTask epicTask);
+    void addEpicTask(EpicTask epicTask);
 
-    public void addSubTask(SubTask subTask);
+    void addSubTask(SubTask subTask);
 
-    public void updateEpicTask(EpicTask epicTask);
+    void updateEpicTask(EpicTask epicTask);
 
-    public void updateTask(Task simpleTask);
+    void updateTask(Task simpleTask);
 
-    public void updateSubTask(SubTask subTask);
+    void updateSubTask(SubTask subTask);
 
-    public String getSubTasksFromEpic(EpicTask epicTask);
+    String getSubTasksFromEpic(EpicTask epicTask);
 
-    public ArrayList<Task> getHistory();
+    List<Task> getHistory();
 
-    public void updateHistory();
+
 
 
 }
