@@ -5,7 +5,6 @@ import tasks.SubTask;
 import tasks.Task;
 import tasks.Progress;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,8 +14,6 @@ public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Task> tasks = new HashMap<>();
 
     private final HistoryManager historyManager = Managers.getDefaultHistory();
-
-
 
     private int newId = 1;
 
@@ -70,7 +67,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public EpicTask getEpicTaskById(int id) {
-
         historyManager.add(epicTasks.get(id));
         return epicTasks.get(id);
     }

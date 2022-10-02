@@ -4,9 +4,7 @@ import tasks.EpicTask;
 import tasks.SubTask;
 import tasks.Task;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 public interface TaskManager {
     void printInfoEpicTasks();
@@ -48,8 +46,5 @@ public interface TaskManager {
     String getSubTasksFromEpic(EpicTask epicTask);
 
     List<Task> getHistory();
-
-
-
 
 }

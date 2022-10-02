@@ -1,5 +1,5 @@
 package tasks;
-import tasks.Progress;
+
 public class Task {
     protected String title;
     protected String description;

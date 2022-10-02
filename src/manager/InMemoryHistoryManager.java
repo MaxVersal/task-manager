@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager{
-
-    private final List<Task> history = new ArrayList<>();
-
     Map<Integer, Node> nodeMap = new HashMap<>();
 
     private Node first;
@@ -59,7 +56,6 @@ public class InMemoryHistoryManager implements HistoryManager{
             last.setNext(node);
         }
         last = node;
-        //last.setNext(null);
     }
 
     public List<Task> getTasks(){
