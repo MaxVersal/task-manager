@@ -5,6 +5,12 @@ public class EpicTask extends Task{
 
     protected ArrayList<SubTask> subs;
 
+    public TypeOfTask getType() {
+        return type;
+    }
+
+    protected TypeOfTask type = TypeOfTask.EPIC;
+
     public EpicTask(String title, String description, Progress progress){
         super(title, description, progress);
         subs = new ArrayList<>();

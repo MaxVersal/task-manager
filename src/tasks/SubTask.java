@@ -2,6 +2,12 @@ package tasks;
 public class SubTask extends Task {
      protected int epicID;
 
+     protected TypeOfTask type = TypeOfTask.SUBTASK;
+
+    public TypeOfTask getType() {
+        return type;
+    }
+
     public SubTask(String title, String description, Progress progress, int epicID){
         super( title, description,  progress);
         this.epicID = epicID;

@@ -7,6 +7,12 @@ public class Task {
 
     protected Progress progress;
 
+    protected TypeOfTask type = TypeOfTask.TASK;
+
+    public TypeOfTask getType() {
+        return type;
+    }
+
     public Task(String title, String description, Progress progress) {
         this.title = title;
         this.description = description;

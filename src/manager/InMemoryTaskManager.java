@@ -12,9 +12,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
     private final HashMap<Integer, EpicTask> epicTasks = new HashMap<>();
     private final HashMap<Integer, Task> tasks = new HashMap<>();
-
     private final HistoryManager historyManager = Managers.getDefaultHistory();
-
     private int newId = 1;
 
     @Override
@@ -121,13 +119,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void addSubTask(SubTask subTask) {
+    public  void addSubTask(SubTask subTask) {
         subTask.setId(newId++);
         subTasks.put(subTask.getId(), subTask);
         EpicTask e = epicTasks.get(subTask.getEpicID());
         e.getSubs().add(subTask);
         updateEpicTask(e);
-
     }
 
     @Override
@@ -182,5 +179,57 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getHistory(){
         return historyManager.getHistory();
+    }
+
+    @Override
+    public int getNewId() {
+        return newId;
+    }
+    @Override
+    public void setNewId(int newId) {
+        this.newId = newId;
+    }
+
+    @Override
+    public HashMap<Integer, SubTask> getSubTasks() {
+        return subTasks;
+    }
+
+    @Override
+    public HashMap<Integer, EpicTask> getEpicTasks() {
+        return epicTasks;
+    }
+
+    @Override
+    public HashMap<Integer, Task> getTasks() {
+        return tasks;
+    }
+
+    @Override
+    public Task findTask(int id){
+        Task task = null;
+        for (Integer idTask : getEpicTasks().keySet()){
+            if (idTask == id){
+                task = getEpicTaskById(idTask);
+            }
+        }
+        if (task == null){
+            for (Integer taskId : getSubTasks().keySet()){
+                if (taskId == id){
+                    task = getSubTaskById(taskId);
+                }
+            }
+        } else {
+            return task;
+        }
+        if (task == null){
+            for (Integer taskId : getTasks().keySet()){
+                if (taskId == id){
+                    task = getTaskById(taskId);
+                    return task;
+                }
+            }
+        }
+        return task;
     }
 }

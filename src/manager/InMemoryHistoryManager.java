@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager{
+
+
     Map<Integer, Node> nodeMap = new HashMap<>();
 
     private Node first;
@@ -76,5 +78,9 @@ public class InMemoryHistoryManager implements HistoryManager{
 
     public void remove(int id) {
         removeNode(id);
+    }
+
+    public void setNodeMap(Map<Integer, Node> nodeMap) {
+        this.nodeMap = nodeMap;
     }
 }

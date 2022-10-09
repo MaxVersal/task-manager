@@ -4,6 +4,7 @@ import tasks.EpicTask;
 import tasks.SubTask;
 import tasks.Task;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface TaskManager {
@@ -47,4 +48,15 @@ public interface TaskManager {
 
     List<Task> getHistory();
 
+    int getNewId();
+
+    void setNewId(int id);
+
+    HashMap<Integer, Task> getTasks();
+
+    HashMap<Integer, EpicTask> getEpicTasks();
+
+    HashMap<Integer, SubTask> getSubTasks();
+
+    Task findTask(int id);
 }

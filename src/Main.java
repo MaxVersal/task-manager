@@ -1,15 +1,18 @@
-import manager.InMemoryHistoryManager;
+import manager.FileBackedTasksManager;
 import manager.Managers;
 import manager.TaskManager;
 import tasks.EpicTask;
 import tasks.SubTask;
 import tasks.Progress;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("Поехали!");
 
         TaskManager manager = Managers.getDefault();
@@ -42,15 +45,25 @@ public class Main {
 
         manager.getEpicTaskById(1);
 
-        //System.out.println(manager.getHistory());
+        Path path = Paths.get("C:\\Users\\User\\IdeaProjects\\java-kanban\\src\\history.csv");
+        FileBackedTasksManager fbtm = new FileBackedTasksManager(path);
 
-        manager.removeEpicTask(1);
+        fbtm.addEpicTask(epicTask);
+        fbtm.addEpicTask(epicTask1);
+        fbtm.addSubTask(subTask);
 
-        System.out.println(manager.getHistory());
+        fbtm.getEpicTaskById(1);
+        fbtm.getEpicTaskById(1);
 
+        fbtm.getSubTaskById(3);
+        fbtm.getEpicTaskById(2);
 
+        System.out.println(fbtm.getHistory());
 
+        Path path1 = Paths.get("C:\\Users\\User\\IdeaProjects\\java-kanban\\src\\history2.csv");
+        FileBackedTasksManager fbtm1 = FileBackedTasksManager.load(path1);
 
+        System.out.println(fbtm1.getHistory());
 
     }
 }
