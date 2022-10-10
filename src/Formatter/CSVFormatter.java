@@ -45,15 +45,17 @@ public class CSVFormatter{
         return history;
     }
 
-    public static Task fromString(String line){
-        String[] array = line.split(",");
+    public static Task fromString(String[] array){
         Task taskResult;
         if (array[1].equals("SUBTASK")){
             taskResult = new SubTask(array[2], array[4], Progress.valueOf(array[3]), Integer.parseInt(array[5]));
+            taskResult.setId(Integer.parseInt(array[0]));
         } else if (array[1].equals("TASK")){
             taskResult  = new Task(array[2], array[4], Progress.valueOf(array[3]));
+            taskResult.setId(Integer.parseInt(array[0]));
         } else if (array[1].equals("EPIC")){
             taskResult  = new EpicTask(array[2], array[4], Progress.valueOf(array[3]));
+            taskResult.setId(Integer.parseInt(array[0]));
         } else {
             taskResult = null;
         }

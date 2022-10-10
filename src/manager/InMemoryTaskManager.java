@@ -115,7 +115,7 @@ public class InMemoryTaskManager implements TaskManager {
         epicTask.setId(newId++);
         epicTasks.put(epicTask.getId(), epicTask);
         updateEpicTask(epicTask);
-        ;
+
     }
 
     @Override
@@ -211,12 +211,14 @@ public class InMemoryTaskManager implements TaskManager {
         for (Integer idTask : getEpicTasks().keySet()){
             if (idTask == id){
                 task = getEpicTaskById(idTask);
+                return task;
             }
         }
         if (task == null){
             for (Integer taskId : getSubTasks().keySet()){
                 if (taskId == id){
                     task = getSubTaskById(taskId);
+                    return task;
                 }
             }
         } else {

@@ -1,6 +1,0 @@
-id,type,name,status,description,epic
-1,EPIC,Продукты,IN_PROGRESS,Сходить в магазин
-2,EPIC,Программирование,NEW,Закрыть спринт
-3,SUBTASK,Купить мандаринов,IN_PROGRESS,2 кг импортные,1
-
-1,3

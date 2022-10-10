@@ -3,6 +3,7 @@ package manager;
 import Exceptions.ManagerSaveException;
 import Formatter.CSVFormatter;
 import tasks.EpicTask;
+import tasks.Progress;
 import tasks.SubTask;
 import tasks.Task;
 
@@ -12,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -42,12 +44,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
             } else if (i == array.length - 1){
                 break;
             } else {
-                task = CSVFormatter.fromString(line);
+                String[] elements = line.split(",");
+                task = CSVFormatter.fromString(elements);
                 int id = task.getId();
                 if (id > generatorID){
                     generatorID = id;
                 }
-                tasksManager.addNewTask(task);
+                tasksManager.addNewTask(task, id);
             }
         }
         tasksManager.setNewId(generatorID);
@@ -66,7 +69,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
         return tasksManager;
     }
 
-    public void save() throws ManagerSaveException{
+    private void save() throws ManagerSaveException{
         //запишем файл в строку через bufferedwriter(new filewriter(file)
         try(BufferedWriter bf = new BufferedWriter(new FileWriter(file.toFile()))){
             //записать в файл заголовок
@@ -124,21 +127,22 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
         }
     }
 
-    public void addNewTask(Task task){
+    public void addNewTask(Task task, int id){
         switch (task.getType()){
             case EPIC: //в соответствии с классом вызываем метод добавления
-                super.addEpicTask((EpicTask) task);
+                super.getEpicTasks().put(id, (EpicTask) task);
                 break;
             case TASK:
-                super.addTask(task);
+                super.getTasks().put(id, task);
             case SUBTASK:
-                super.addSubTask((SubTask) task);
+                super.getSubTasks().put(id, (SubTask) task);
                 break;
         }
     }
 
     @Override
     public EpicTask getEpicTaskById(int id){
+        super.getEpicTaskById(id);
         try {
             save();
         } catch (ManagerSaveException ex){
@@ -149,6 +153,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
 
     @Override
     public SubTask getSubTaskById(int id){
+        super.getSubTaskById(id);
         try {
             save();
         } catch (ManagerSaveException ex){
@@ -159,11 +164,42 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
 
     @Override
     public Task getTaskById(int id){
+        super.getTaskById(id);
         try {
             save();
         } catch (ManagerSaveException ex){
             System.out.println(ex.getMessage());
         }
         return super.getTaskById(id);
+    }
+
+    public static void main(String[] args) throws IOException {
+        Path path = Paths.get(".\\history.csv");
+        FileBackedTasksManager fbtm = new FileBackedTasksManager(path);
+
+        EpicTask epicTask = new EpicTask("Продукты", "Сходить в магазин", Progress.NEW);
+        fbtm.addEpicTask(epicTask);
+
+        SubTask subTask = new SubTask("Купить мандаринов", "2 кг импортные", Progress.IN_PROGRESS, epicTask.getId());
+        fbtm.addSubTask(subTask);
+        SubTask subTask1 = new SubTask("Купить огурцов", "2кг импортные", Progress.IN_PROGRESS, epicTask.getId());
+        fbtm.addSubTask(subTask1);
+        SubTask subTask2 = new SubTask("Купить помидоров", "2 кг импортные", Progress.IN_PROGRESS, epicTask.getId());
+        fbtm.addSubTask(subTask2);
+        EpicTask epicTask1 = new EpicTask("Программирование", "Закрыть спринт", Progress.IN_PROGRESS);
+        fbtm.addEpicTask(epicTask1);
+
+        fbtm.getEpicTaskById(epicTask.getId());
+        fbtm.getEpicTaskById(epicTask.getId());
+
+        fbtm.getEpicTaskById(epicTask1.getId());
+
+        System.out.print((fbtm.getHistory()));
+
+        FileBackedTasksManager fbtm1 = FileBackedTasksManager.load(path);
+        System.out.println("\n");
+
+        System.out.println(fbtm1.getHistory());
+
     }
 }
