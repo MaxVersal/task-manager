@@ -201,5 +201,24 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
 
         System.out.println(fbtm1.getHistory());
 
+        for (Integer id : fbtm.getEpicTasks().keySet()){
+            EpicTask epic = fbtm.getEpicTaskById(id);
+            EpicTask epic1 = fbtm1.getEpicTaskById(id);
+            if (epic.equals(epic1)){
+                System.out.println("Эпики равны" + "\n");
+            } else {
+                System.out.println("Не равны");
+            }
+        }
+        for (Integer id : fbtm.getSubTasks().keySet()){
+            SubTask sb = fbtm.getSubTaskById(id);
+            SubTask sb1 = fbtm1.getSubTaskById(id);
+            if (sb.equals(sb1)){
+                System.out.println("Сабы равны" + "\n");
+            } else {
+                System.out.println("Не равны");
+            }
+        }
+
     }
 }

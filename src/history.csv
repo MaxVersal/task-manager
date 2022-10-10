@@ -5,4 +5,4 @@ id,type,name,status,description,epic
 3,SUBTASK,Купить огурцов,IN_PROGRESS,2кг импортные,1
 4,SUBTASK,Купить помидоров,IN_PROGRESS,2 кг импортные,1
 
-1,5
+1,5,2,3,4
