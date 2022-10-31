@@ -1,5 +1,6 @@
 package manager;
 
+import Exceptions.TaskTimeException;
 import tasks.EpicTask;
 import tasks.SubTask;
 import tasks.Task;
@@ -8,11 +9,11 @@ import tasks.Progress;
 import java.util.HashMap;
 import java.util.List;
 
-public class InMemoryTaskManager implements TaskManager {
+public class InMemoryTaskManager implements manager.TaskManager {
     private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
     private final HashMap<Integer, EpicTask> epicTasks = new HashMap<>();
     private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HistoryManager historyManager = Managers.getDefaultHistory();
+    private final manager.HistoryManager historyManager = manager.Managers.getDefaultHistory();
     private int newId = 1;
 
     @Override
@@ -26,7 +27,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void printInfoSubTasks() {
         System.out.println("Информация о подзадачах: ");
         String subTaskInfo = subTasks.toString();
-        System.out.println("subTaskInfo");
+        System.out.println(subTaskInfo);
     }
 
     @Override
@@ -37,49 +38,75 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void removeEpicTask(int id) {
-
-        for (SubTask sub : epicTasks.get(id).getSubs()){
-            historyManager.remove(sub.getId()); // удаляем сабы из истории
+    public void removeEpicTask(int id) throws NullPointerException {
+        try {
+            if (!epicTasks.get(id).getSubs().isEmpty()){
+                for (SubTask sub : epicTasks.get(id).getSubs()){
+                    historyManager.remove(sub.getId()); // удаляем сабы из истории
+                }
+            }
+            epicTasks.remove(id);
+            historyManager.remove(id);
+        } catch (NullPointerException ex){
+            throw new NullPointerException("Данного id не суещствует!");
         }
-        epicTasks.remove(id);
-        historyManager.remove(id);
+    }
+
+    @Override
+    public void removeSubTask(int id) throws NullPointerException {
+        try {
+            SubTask s = subTasks.get(id);
+            EpicTask e = epicTasks.get(s.getEpicID());
+            e.getSubs().remove(s);
+            subTasks.remove(id);
+            updateEpicTask(e);
+            historyManager.remove(id);
+        } catch (NullPointerException ex) {
+            throw new NullPointerException("Данного id не суещствует!");
+        }
 
     }
 
     @Override
-    public void removeSubTask(int id) {
-        SubTask s = subTasks.get(id);
-        EpicTask e = epicTasks.get(s.getEpicID());
-        e.getSubs().remove(s);
-        subTasks.remove(id);
-        updateEpicTask(e);
-        historyManager.remove(id);
-    }
-
-    @Override
-    public void removeTask(int id) {
-        tasks.remove(id);
-        historyManager.remove(id);
-    }
-
-    @Override
-    public EpicTask getEpicTaskById(int id) {
-        historyManager.add(epicTasks.get(id));
-        return epicTasks.get(id);
-    }
-
-    @Override
-    public Task getTaskById(int id) {
-        historyManager.add(tasks.get(id));
-        return tasks.get(id);
+    public void removeTask(int id) throws NullPointerException {
+        try {
+            tasks.remove(id);
+            historyManager.remove(id);
+        } catch (NullPointerException ex) {
+            throw new NullPointerException("Данного id не существует!");
+        }
 
     }
 
     @Override
-    public SubTask getSubTaskById(int id) {
-        historyManager.add(subTasks.get(id));
-        return subTasks.get(id);
+    public EpicTask getEpicTaskById(int id) throws NullPointerException {
+        try{
+            historyManager.add(epicTasks.get(id));
+            return epicTasks.get(id);
+        } catch (NullPointerException ex) {
+            throw new NullPointerException("Данного id не существует!");
+        }
+
+    }
+
+    @Override
+    public Task getTaskById(int id) throws NullPointerException {
+        try{
+            historyManager.add(tasks.get(id));
+            return tasks.get(id);
+        } catch (NullPointerException ex) {
+            throw new NullPointerException("Данного id не существует!");
+        }
+    }
+
+    @Override
+    public SubTask getSubTaskById(int id) throws NullPointerException {
+        try{
+            historyManager.add(subTasks.get(id));
+            return subTasks.get(id);
+        } catch (NullPointerException ex) {
+            throw new NullPointerException("Данного id не существует!");
+        }
     }
 
     @Override
@@ -97,6 +124,7 @@ public class InMemoryTaskManager implements TaskManager {
             value.getSubs().clear();
         }
         epicTasks.clear();
+        subTasks.clear();
     }
 
     @Override
@@ -106,12 +134,24 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addTask(Task simpleTask) {
+        try {
+            checkCrossings(simpleTask); // проверка на пересечения при добавлении
+        }catch (TaskTimeException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
         simpleTask.setId(newId++);
         tasks.put(simpleTask.getId(), simpleTask);
     }
 
     @Override
     public void addEpicTask(EpicTask epicTask) {
+        try {
+            checkCrossings(epicTask); // проверка на пересечения при добавлении
+        }catch (TaskTimeException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
         epicTask.setId(newId++);
         epicTasks.put(epicTask.getId(), epicTask);
         updateEpicTask(epicTask);
@@ -120,6 +160,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public  void addSubTask(SubTask subTask) {
+        try {
+            checkCrossings(subTask); // проверка на пересечения при добавлении
+        }catch (TaskTimeException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
         subTask.setId(newId++);
         subTasks.put(subTask.getId(), subTask);
         EpicTask e = epicTasks.get(subTask.getEpicID());
@@ -153,7 +199,9 @@ public class InMemoryTaskManager implements TaskManager {
             epicTask.setProgress(Progress.IN_PROGRESS); // случай, когда у сабтасков статусы NEW И DONE
         }
 
-
+        //также с добавлением саба меняем время начала и продолжительность у эпика
+        epicTask.setStartTime(epicTask.calculateStartTime());
+        epicTask.setDuration(epicTask.calculateSummaryDuration());
     }
 
     @Override
@@ -233,5 +281,43 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
         return task;
+    }
+
+    public void checkCrossings(Task task) throws TaskTimeException{
+        for (EpicTask epic : epicTasks.values()){
+            if (task.getStartTime().isBefore(epic.getEndTime()) && task.getStartTime().isAfter(epic.getStartTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            } else if (task.getEndTime().isAfter(epic.getStartTime()) && task.getEndTime().isBefore(epic.getEndTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            } else if (task.getStartTime().isEqual(epic.getStartTime()) && task.getEndTime().isEqual(epic.getEndTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            } else if (task.getStartTime().isBefore(epic.getStartTime()) && task.getEndTime().isAfter(epic.getEndTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            }
+        }
+
+        for (SubTask subTask : subTasks.values()){
+            if (task.getStartTime().isBefore(subTask.getEndTime()) && task.getStartTime().isAfter(subTask.getStartTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            } else if (task.getEndTime().isAfter(subTask.getStartTime()) && task.getEndTime().isBefore(subTask.getEndTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            } else if (task.getStartTime().isEqual(subTask.getStartTime()) && task.getEndTime().isEqual(subTask.getEndTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            } else if (task.getStartTime().isBefore(subTask.getStartTime()) && task.getEndTime().isAfter(subTask.getEndTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            }
+        }
+
+        for (Task simpleTask : tasks.values()){
+            if (task.getStartTime().isBefore(simpleTask.getEndTime()) && task.getStartTime().isAfter(simpleTask.getStartTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            } else if (task.getEndTime().isAfter(simpleTask.getStartTime()) && task.getEndTime().isBefore(simpleTask.getEndTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            } else if (task.getStartTime().isEqual(simpleTask.getStartTime()) && task.getEndTime().isEqual(simpleTask.getEndTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            } else if (task.getStartTime().isBefore(simpleTask.getStartTime()) && task.getEndTime().isAfter(simpleTask.getEndTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            }
+        }
     }
 }

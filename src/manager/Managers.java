@@ -4,13 +4,13 @@ import java.nio.file.Path;
 
 public class Managers {
 
-    public static TaskManager getDefault(){
+    public static manager.TaskManager getDefault(){
 
-        return  new InMemoryTaskManager();
+        return  new manager.InMemoryTaskManager();
     }
 
-    public static InMemoryHistoryManager getDefaultHistory(){
-        return new InMemoryHistoryManager();
+    public static manager.InMemoryHistoryManager getDefaultHistory(){
+        return new manager.InMemoryHistoryManager();
     }
 
 

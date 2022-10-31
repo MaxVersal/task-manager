@@ -1,5 +1,6 @@
 package manager;
 
+import Exceptions.TaskTimeException;
 import tasks.EpicTask;
 import tasks.SubTask;
 import tasks.Task;
@@ -59,4 +60,6 @@ public interface TaskManager {
     HashMap<Integer, SubTask> getSubTasks();
 
     Task findTask(int id);
+
+    void checkCrossings(Task task) throws TaskTimeException;
 }

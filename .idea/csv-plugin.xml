@@ -3,6 +3,13 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="\history.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\history.csv">
           <value>
             <Attribute>
@@ -10,7 +17,7 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\src\history2.csv">
+        <entry key="\src\out\production\java-kanban\history.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

@@ -14,11 +14,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class FileBackedTasksManager extends InMemoryTaskManager{
+public class FileBackedTasksManager extends manager.InMemoryTaskManager {
 
     private final Path file;
 
@@ -178,21 +180,21 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
         FileBackedTasksManager fbtm = new FileBackedTasksManager(path);
 
         EpicTask epicTask = new EpicTask("Продукты", "Сходить в магазин", Progress.NEW);
+
+
+        SubTask subTask = new SubTask("Sub",
+                "description",
+                Progress.IN_PROGRESS,
+                LocalDateTime.of(2022,1,1, 10, 30),
+                Duration.ofMinutes(20), 1);
+
         fbtm.addEpicTask(epicTask);
-
-        SubTask subTask = new SubTask("Купить мандаринов", "2 кг импортные", Progress.IN_PROGRESS, epicTask.getId());
         fbtm.addSubTask(subTask);
-        SubTask subTask1 = new SubTask("Купить огурцов", "2кг импортные", Progress.IN_PROGRESS, epicTask.getId());
-        fbtm.addSubTask(subTask1);
-        SubTask subTask2 = new SubTask("Купить помидоров", "2 кг импортные", Progress.IN_PROGRESS, epicTask.getId());
-        fbtm.addSubTask(subTask2);
-        EpicTask epicTask1 = new EpicTask("Программирование", "Закрыть спринт", Progress.IN_PROGRESS);
-        fbtm.addEpicTask(epicTask1);
 
         fbtm.getEpicTaskById(epicTask.getId());
         fbtm.getEpicTaskById(epicTask.getId());
 
-        fbtm.getEpicTaskById(epicTask1.getId());
+        fbtm.getSubTaskById(subTask.getId());
 
         System.out.print((fbtm.getHistory()));
 

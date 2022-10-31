@@ -1,5 +1,9 @@
 package tasks;
 
+import Exceptions.TaskTimeException;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -11,14 +15,36 @@ public class Task {
 
     protected TypeOfTask type = TypeOfTask.TASK;
 
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    protected Duration duration;
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    protected LocalDateTime startTime;
+
     public TypeOfTask getType() {
         return type;
     }
 
-    public Task(String title, String description, Progress progress) {
+    public Task(String title, String description, Progress progress, LocalDateTime startTime, Duration duration) {
         this.title = title;
         this.description = description;
         this.progress = progress;
+        this.startTime = startTime;
+        this.duration = duration;
     }
 
     public String getTitle() {
@@ -41,13 +67,6 @@ public class Task {
         return id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return id == task.id && Objects.equals(title, task.title) && Objects.equals(description, task.description) && progress == task.progress && type == task.type;
-    }
 
     @Override
     public int hashCode() {
@@ -66,13 +85,28 @@ public class Task {
         this.progress = progress;
     }
 
+    public LocalDateTime getEndTime(){
+        return startTime.plusMinutes(duration.toMinutes());
+    }
+
     @Override
     public String toString() {
         return "Task{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
-                ", progress='" + progress + '\'' +
+                ", progress=" + progress +
+                ", type=" + type +
+                ", duration=" + duration +
+                ", startTime=" + startTime +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id && Objects.equals(title, task.title) && Objects.equals(description, task.description) && progress == task.progress && type == task.type && Objects.equals(duration, task.duration) && Objects.equals(startTime, task.startTime);
     }
 }
