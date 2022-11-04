@@ -1,8 +1,8 @@
-package manager;
+package tests.manager;
 
 import Exceptions.TaskTimeException;
+import manager.TaskManager;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import tasks.EpicTask;
 import tasks.Progress;
@@ -14,20 +14,16 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 abstract class TaskManagerTest <T extends TaskManager>{
-    private  T manager;
-    private static EpicTask epic;
-    private static EpicTask epic1;
-    private static SubTask sub;
-    private static SubTask sub1;
-    private static SubTask sub2;
-    private static Task task;
+    protected  T manager;
+    protected  EpicTask epic;
+    protected  EpicTask epic1;
+    protected  SubTask sub;
+    protected  SubTask sub1;
+    protected  SubTask sub2;
+    protected  Task task;
 
-    public TaskManagerTest(T manager){
-        this.manager = manager;
-    }
 
-    @BeforeAll
-    static void init(){
+    protected void init(){
         epic = new EpicTask(
                 "Title",
                 "Decription",
@@ -357,4 +353,5 @@ abstract class TaskManagerTest <T extends TaskManager>{
         );
         assertEquals("Задания не должны пересекаться по времени", ex.getMessage());
     }
+
 }

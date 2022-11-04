@@ -7,6 +7,7 @@ import tasks.Task;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
     void printInfoEpicTasks();
@@ -62,4 +63,5 @@ public interface TaskManager {
     Task findTask(int id);
 
     void checkCrossings(Task task) throws TaskTimeException;
+
 }

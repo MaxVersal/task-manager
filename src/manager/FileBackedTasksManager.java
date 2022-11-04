@@ -136,6 +136,7 @@ public class FileBackedTasksManager extends manager.InMemoryTaskManager {
                 break;
             case TASK:
                 super.getTasks().put(id, task);
+                break;
             case SUBTASK:
                 super.getSubTasks().put(id, (SubTask) task);
                 break;

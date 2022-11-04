@@ -26,14 +26,19 @@ public class SubTask extends Task {
         this.epicID = epicID;
     }
 
+
     @Override
     public String toString() {
         return "SubTask{" +
                 "epicID=" + epicID +
+                ", type=" + type +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
-                ", progress='" + progress + '\'' +
+                ", progress=" + progress +
+                ", type=" + type +
+                ", duration=" + duration +
+                ", startTime=" + startTime +
                 '}';
     }
 }

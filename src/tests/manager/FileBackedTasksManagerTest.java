@@ -1,10 +1,15 @@
-package manager;
+package tests.manager;
 
+import manager.FileBackedTasksManager;
+import manager.InMemoryTaskManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tasks.EpicTask;
 import tasks.Progress;
 import tasks.SubTask;
+import tests.manager.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -13,40 +18,49 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>{
-    static Path path = Path.of(".\\history.csv");
+class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
+    Path path = Path.of("././history.csv");
 
-    public FileBackedTasksManagerTest(){
-        super(new FileBackedTasksManager(path));
+    @BeforeEach
+    public void init() {
+        manager = new FileBackedTasksManager(path);
+        super.init();
     }
 
-    /*@BeforeAll
-    static void init(){
-        EpicTask epicTask = new EpicTask("Продукты", "Сходить в магазин", Progress.NEW);
 
+    @Test
+    void shouldLoadCorrectly() throws IOException {
+        manager.addEpicTask(epic);
+        sub.setEpicID(epic.getId());
+        manager.addSubTask(sub);
+        manager.getSubTaskById(sub.getId());
+        manager.getEpicTaskById(epic.getId());
+        manager.addTask(task);
+        FileBackedTasksManager fbtm = FileBackedTasksManager.load(path);
+        assertAll(
+                () -> assertEquals(manager.getSubTasks(), fbtm.getSubTasks()),
+                () -> assertEquals(manager.getEpicTasks(), fbtm.getEpicTasks())
+        );
+    }
 
-        SubTask subTask = new SubTask("Sub",
-                "description",
-                Progress.IN_PROGRESS,
-                LocalDateTime.of(2022,1,1, 10, 30),
-                Duration.ofMinutes(20), 1);
-
-        manager.addEpicTask(epicTask);
-        manager.addSubTask(subTask);
-
-        manager.getEpicTaskById(epicTask.getId());
-        manager.getEpicTaskById(epicTask.getId());
-
-        manager.getSubTaskById(subTask.getId());
+    @AfterEach
+    void clearAll() {
+        manager.removeAllTasks();
     }
 
     @Test
-    void loadCorrectly() throws IOException {
-        FileBackedTasksManager fbtm1 = FileBackedTasksManager.load(path);
-        assertAll(
-                () -> assertEquals(manager.getHistory(), fbtm1.getHistory()),
-                () -> assertEquals(manager.getEpicTasks(), fbtm1.getEpicTasks())
-        );
-    }*/
+    void loadWithoutSubs() throws IOException {
+        manager.addEpicTask(epic);
+        manager.getEpicTaskById(epic.getId());
+        FileBackedTasksManager fbtm = FileBackedTasksManager.load(path);
+        assertEquals(manager.getEpicTasks(), fbtm.getEpicTasks());
+    }
 
+    @Test
+    void loadWithoutTasks() throws IOException {
+        manager.addEpicTask(epic);
+        sub.setEpicID(epic.getId());
+        manager.addSubTask(sub);
+        assertEquals(0,manager.getHistory().size());
+    }
 }

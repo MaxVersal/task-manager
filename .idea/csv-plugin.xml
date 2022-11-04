@@ -17,13 +17,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\src\out\production\java-kanban\history.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
       </map>
     </option>
   </component>

@@ -6,8 +6,8 @@ import tasks.SubTask;
 import tasks.Task;
 import tasks.Progress;
 
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class InMemoryTaskManager implements manager.TaskManager {
     private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
@@ -319,5 +319,19 @@ public class InMemoryTaskManager implements manager.TaskManager {
                 throw new TaskTimeException("Задания не должны пересекаться по времени");
             }
         }
+    }
+
+    public Set<Task> getPrioritizedTasks() {
+        Set<Task> allTasks = new TreeSet<>();
+        for (SubTask sub : subTasks.values()) {
+            allTasks.add(sub);
+        }
+        for (EpicTask epic : epicTasks.values()) {
+            allTasks.add(epic);
+        }
+        for (Task task : tasks.values()) {
+            allTasks.add(task);
+        }
+        return allTasks;
     }
 }

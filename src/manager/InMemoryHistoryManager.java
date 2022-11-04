@@ -24,7 +24,7 @@ public class InMemoryHistoryManager implements HistoryManager{
         nodeMap.put(task.getId(), last);
     }
 
-    private void removeNode(int id){
+    protected void removeNode(int id){
         Node node = nodeMap.remove(id);
         if (node == null){
             return; // выходим, если нет такого элемента
