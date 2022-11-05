@@ -30,12 +30,6 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
 
     @Test
     void shouldLoadCorrectly() throws IOException {
-        manager.addEpicTask(epic);
-        sub.setEpicID(epic.getId());
-        manager.addSubTask(sub);
-        manager.getSubTaskById(sub.getId());
-        manager.getEpicTaskById(epic.getId());
-        manager.addTask(task);
         FileBackedTasksManager fbtm = FileBackedTasksManager.load(path);
         assertAll(
                 () -> assertEquals(manager.getSubTasks(), fbtm.getSubTasks()),
@@ -50,7 +44,6 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
 
     @Test
     void loadWithoutSubs() throws IOException {
-        manager.addEpicTask(epic);
         manager.getEpicTaskById(epic.getId());
         FileBackedTasksManager fbtm = FileBackedTasksManager.load(path);
         assertEquals(manager.getEpicTasks(), fbtm.getEpicTasks());
@@ -58,9 +51,6 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
 
     @Test
     void loadWithoutTasks() throws IOException {
-        manager.addEpicTask(epic);
-        sub.setEpicID(epic.getId());
-        manager.addSubTask(sub);
         assertEquals(0,manager.getHistory().size());
     }
 }

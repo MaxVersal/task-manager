@@ -292,6 +292,10 @@ public class InMemoryTaskManager implements manager.TaskManager {
                 throw new TaskTimeException("Задания не должны пересекаться по времени");
             } else if (task.getStartTime().isBefore(epic.getStartTime()) && task.getEndTime().isAfter(epic.getEndTime())){
                 throw new TaskTimeException("Задания не должны пересекаться по времени");
+            } else if (task.getStartTime().isEqual(epic.getStartTime())) {
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            } else if (task.getStartTime().isEqual(epic.getEndTime())) {
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
             }
         }
 
@@ -300,7 +304,7 @@ public class InMemoryTaskManager implements manager.TaskManager {
                 throw new TaskTimeException("Задания не должны пересекаться по времени");
             } else if (task.getEndTime().isAfter(subTask.getStartTime()) && task.getEndTime().isBefore(subTask.getEndTime())){
                 throw new TaskTimeException("Задания не должны пересекаться по времени");
-            } else if (task.getStartTime().isEqual(subTask.getStartTime()) && task.getEndTime().isEqual(subTask.getEndTime())){
+            } else if (task.getStartTime().isEqual(subTask.getStartTime()) || task.getEndTime().isEqual(subTask.getEndTime())){
                 throw new TaskTimeException("Задания не должны пересекаться по времени");
             } else if (task.getStartTime().isBefore(subTask.getStartTime()) && task.getEndTime().isAfter(subTask.getEndTime())){
                 throw new TaskTimeException("Задания не должны пересекаться по времени");
@@ -312,9 +316,11 @@ public class InMemoryTaskManager implements manager.TaskManager {
                 throw new TaskTimeException("Задания не должны пересекаться по времени");
             } else if (task.getEndTime().isAfter(simpleTask.getStartTime()) && task.getEndTime().isBefore(simpleTask.getEndTime())){
                 throw new TaskTimeException("Задания не должны пересекаться по времени");
-            } else if (task.getStartTime().isEqual(simpleTask.getStartTime()) && task.getEndTime().isEqual(simpleTask.getEndTime())){
+            } else if (task.getStartTime().isEqual(simpleTask.getStartTime()) || task.getEndTime().isEqual(simpleTask.getEndTime())){
                 throw new TaskTimeException("Задания не должны пересекаться по времени");
             } else if (task.getStartTime().isBefore(simpleTask.getStartTime()) && task.getEndTime().isAfter(simpleTask.getEndTime())){
+                throw new TaskTimeException("Задания не должны пересекаться по времени");
+            } else if (task.getStartTime().isEqual(simpleTask.getEndTime()) || task.getEndTime().isEqual(simpleTask.getStartTime())) {
                 throw new TaskTimeException("Задания не должны пересекаться по времени");
             }
         }
