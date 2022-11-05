@@ -1,22 +1,15 @@
 package tests.manager;
 
 import manager.FileBackedTasksManager;
-import manager.InMemoryTaskManager;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tasks.EpicTask;
-import tasks.Progress;
-import tasks.SubTask;
-import tests.manager.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.time.Duration;
-import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
     Path path = Path.of("././history.csv");
@@ -50,7 +43,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
     }
 
     @Test
-    void loadWithoutTasks() throws IOException {
+    void loadWithoutTasks(){
         assertEquals(0,manager.getHistory().size());
     }
 }
