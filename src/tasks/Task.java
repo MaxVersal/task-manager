@@ -13,6 +13,16 @@ public class Task implements Comparable<Task> {
 
     protected TypeOfTask type = TypeOfTask.TASK;
 
+    public Task(String title, String description, int id, Progress progress, TypeOfTask type, Duration duration, LocalDateTime startTime) {
+        this.title = title;
+        this.description = description;
+        this.id = id;
+        this.progress = progress;
+        this.type = type;
+        this.duration = duration;
+        this.startTime = startTime;
+    }
+
     public Duration getDuration() {
         return duration;
     }
@@ -44,6 +54,10 @@ public class Task implements Comparable<Task> {
         this.startTime = startTime;
         this.duration = duration;
     }
+    public Task() {
+    }
+
+
 
     public String getTitle() {
         return title;
@@ -65,10 +79,9 @@ public class Task implements Comparable<Task> {
         return id;
     }
 
-
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, id, progress, type);
+        return Objects.hash(title, description, id, progress, type, duration, startTime);
     }
 
     public void setId(int id) {

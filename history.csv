@@ -6,4 +6,3 @@ id,type,name,status,startTime,duration,description,epic
 5,SUBTASK,Subtask2,NEW,2024-01-01T20:30,PT2H30M,decription2,4
 6,TASK,Title,NEW,2025-01-01T20:30,PT1H,Decription
 
-1

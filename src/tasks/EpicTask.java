@@ -14,6 +14,21 @@ public class EpicTask extends Task{
 
     protected TypeOfTask type = TypeOfTask.EPIC;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EpicTask epicTask = (EpicTask) o;
+        return Objects.equals(subs, epicTask.subs) && type == epicTask.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), subs, type);
+    }
+
     public EpicTask(String title, String description, Progress progress){
         super(title, description, progress, LocalDateTime.now(),Duration.ZERO);
         subs = new ArrayList<>();
@@ -36,16 +51,6 @@ public class EpicTask extends Task{
         subs.add(subTask);
     }
 
-    @Override
-    public String toString() {
-        return "EpicTask{" +
-                "subs=" + subs +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", progress='" + progress + '\'' +
-                '}';
-    }
 
     @Override
     public LocalDateTime getEndTime(){
@@ -76,5 +81,24 @@ public class EpicTask extends Task{
             duration = duration.plusMinutes(sub.getDuration().toMinutes());
         }
         return duration;
+    }
+
+    @Override
+    public String toString() {
+        return "EpicTask{" +
+                "subs=" + subs +
+                ", type=" + type +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", progress=" + progress +
+                ", type=" + type +
+                ", duration=" + duration +
+                ", startTime=" + startTime +
+                '}';
+    }
+
+    public void setType(TypeOfTask type) {
+        this.type = type;
     }
 }

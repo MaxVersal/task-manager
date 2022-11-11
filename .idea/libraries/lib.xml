@@ -9,6 +9,7 @@
       <root url="jar://$PROJECT_DIR$/lib/junit-jupiter-api-5.8.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/opentest4j-1.2.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/junit-jupiter-5.8.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../1LIBS/gson-2.9.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
