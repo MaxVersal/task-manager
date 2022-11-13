@@ -1,13 +1,12 @@
 package manager;
 
-import Exceptions.TaskTimeException;
+import exceptions.TaskTimeException;
 import tasks.EpicTask;
 import tasks.SubTask;
 import tasks.Task;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 public interface TaskManager {
     void printInfoEpicTasks();

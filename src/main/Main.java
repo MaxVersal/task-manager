@@ -1,6 +1,6 @@
-package Main;
+package main;
 
-import KV.KVServer;
+import kv.KVServer;
 import manager.Managers;
 import manager.TaskManager;
 import tasks.EpicTask;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class main {
+public class Main {
 
     public static void main(String[] args) throws IOException {
         KVServer server = new KVServer();

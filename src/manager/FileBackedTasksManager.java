@@ -1,9 +1,8 @@
 package manager;
 
-import Exceptions.ManagerSaveException;
-import Formatter.CSVFormatter;
+import exceptions.ManagerSaveException;
+import formatter.CSVFormatter;
 import tasks.EpicTask;
-import tasks.Progress;
 import tasks.SubTask;
 import tasks.Task;
 
@@ -13,9 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;

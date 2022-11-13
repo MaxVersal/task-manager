@@ -1,4 +1,4 @@
-package Formatter;
+package formatter;
 
 import tasks.*;
 

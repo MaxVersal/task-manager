@@ -1,6 +1,6 @@
 package tests.manager;
 
-import Exceptions.TaskTimeException;
+import exceptions.TaskTimeException;
 import manager.TaskManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

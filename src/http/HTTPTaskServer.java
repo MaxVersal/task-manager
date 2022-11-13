@@ -1,27 +1,19 @@
-package HTTP;
+package http;
 
-import KV.KVServer;
+import kv.KVServer;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import manager.HTTPTaskManager;
 import manager.Managers;
 import manager.TaskManager;
 import tasks.*;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.net.URI;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
-import java.time.LocalDateTime;
 
 public class HTTPTaskServer {
     static TaskManager manager = Managers.getDefault();

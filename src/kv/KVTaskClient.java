@@ -1,4 +1,4 @@
-package KV;
+package kv;
 
 import java.io.IOException;
 import java.net.URI;

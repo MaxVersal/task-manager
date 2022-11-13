@@ -1,6 +1,6 @@
 package tests.manager;
 
-import KV.KVServer;
+import kv.KVServer;
 import com.google.gson.Gson;
 import manager.Managers;
 import manager.TaskManager;
