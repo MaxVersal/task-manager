@@ -1,7 +1,6 @@
 package tests.manager;
 
 import KV.KVServer;
-import KV.KVTaskClient;
 import com.google.gson.Gson;
 import manager.Managers;
 import manager.TaskManager;
@@ -11,7 +10,6 @@ import tasks.Progress;
 import tasks.Task;
 
 import java.io.IOException;
-import java.net.URI;
 import java.time.Duration;
 import java.time.LocalDateTime;
 

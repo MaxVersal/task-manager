@@ -13,19 +13,13 @@ import java.util.List;
 
 public class HTTPTaskManager extends FileBackedTasksManager {
 
-    private static final int PORT = 8081;
+    private final Gson gson;
 
-    private List<Task> history;
-    private Gson gson;
-
-    private String url;
-
-    private KVTaskClient client;
+    private final KVTaskClient client;
 
     public HTTPTaskManager(String url) {
         super(null);
         gson = new Gson();
-        this.url = url;
         client = new KVTaskClient(URI.create(url));
     }
 
@@ -81,6 +75,7 @@ public class HTTPTaskManager extends FileBackedTasksManager {
         this.setSubTasks(gson.fromJson(jsonSubs, new  TypeToken<HashMap<Integer, SubTask>>(){}.getType()));
         try {
             List<Task> history = gson.fromJson(jsonHistory, new TypeToken<List<Task>>(){}.getType());
+            this.getHistory().addAll(history);
         } catch (NullPointerException ex) {
             System.out.println("Истории нет");
         }
