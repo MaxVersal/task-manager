@@ -64,4 +64,5 @@ public interface TaskManager {
 
     void checkCrossings(Task task) throws TaskTimeException;
 
+    void load();
 }

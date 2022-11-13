@@ -3,6 +3,7 @@ package KV;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +25,28 @@ public class KVServer {
         server.createContext("/load", this::load);
     }
 
-    private void load(HttpExchange h) {
+    private void load(HttpExchange h) throws IOException {
         // TODO Добавьте получение значения по ключу
+        try(OutputStream os = h.getResponseBody()) {
+            if (!hasAuth(h)) {
+                System.out.println("Запрос неавторизован, нужен параметр в query API_TOKEN со значением апи-ключа");
+                h.sendResponseHeaders(403, 0);
+                return;
+            }
+            if ("GET".equals(h.getRequestMethod())) {
+                String key = h.getRequestURI().getPath().substring("/load/".length());
+                if (key.isEmpty()) {
+                    System.out.println("Key для сохранения пустой. key указывается в пути: /load/{key}");
+                    h.sendResponseHeaders(400, 0);
+                    return;
+                }
+                h.sendResponseHeaders(200, 0);
+                os.write(data.get(key).getBytes());
+            } else {
+                System.out.println("/GET ждёт POST-запрос, а получил: " + h.getRequestMethod());
+                h.sendResponseHeaders(405, 0);
+            }
+        }
     }
 
     private void save(HttpExchange h) throws IOException {
@@ -80,6 +101,11 @@ public class KVServer {
         System.out.println("Открой в браузере http://localhost:" + PORT + "/");
         System.out.println("API_TOKEN: " + apiToken);
         server.start();
+    }
+
+    public void stop() {
+        System.out.println("Остановка KvServer");
+        server.stop(0);
     }
 
     private String generateApiToken() {

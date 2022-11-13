@@ -9,9 +9,9 @@ import tasks.Progress;
 import java.util.*;
 
 public class InMemoryTaskManager implements manager.TaskManager {
-    private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    private final HashMap<Integer, EpicTask> epicTasks = new HashMap<>();
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
+    private HashMap<Integer, SubTask> subTasks = new HashMap<>();
+    private HashMap<Integer, EpicTask> epicTasks = new HashMap<>();
+    private HashMap<Integer, Task> tasks = new HashMap<>();
     private final manager.HistoryManager historyManager = manager.Managers.getDefaultHistory();
     private int newId = 1;
 
@@ -339,4 +339,21 @@ public class InMemoryTaskManager implements manager.TaskManager {
         }
         return allTasks;
     }
+
+    public void setSubTasks(HashMap<Integer, SubTask> subTasks) {
+        this.subTasks = subTasks;
+    }
+
+    public void setEpicTasks(HashMap<Integer, EpicTask> epicTasks) {
+        this.epicTasks = epicTasks;
+    }
+
+    public void setTasks(HashMap<Integer, Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public void load() {
+        System.out.println("Переносим информацию");
+    }
+
 }

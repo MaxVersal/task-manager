@@ -6,7 +6,7 @@ public class Managers {
 
     public static manager.TaskManager getDefault(){
 
-        return  new manager.InMemoryTaskManager();
+        return  new manager.HTTPTaskManager();
     }
 
     public static manager.InMemoryHistoryManager getDefaultHistory(){

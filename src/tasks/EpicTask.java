@@ -12,7 +12,6 @@ public class EpicTask extends Task{
         return type;
     }
 
-    protected TypeOfTask type = TypeOfTask.EPIC;
 
 
     @Override
@@ -32,11 +31,13 @@ public class EpicTask extends Task{
     public EpicTask(String title, String description, Progress progress){
         super(title, description, progress, LocalDateTime.now(),Duration.ZERO);
         subs = new ArrayList<>();
+        super.type = TypeOfTask.EPIC;
     }
 
     public EpicTask(String title, String description, Progress progress, LocalDateTime dateTime, Duration duration){
         super(title, description, progress, dateTime, duration);
         subs = new ArrayList<>();
+        super.type = TypeOfTask.EPIC;
     }
 
     public ArrayList<SubTask> getSubs() {
@@ -92,7 +93,6 @@ public class EpicTask extends Task{
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", progress=" + progress +
-                ", type=" + type +
                 ", duration=" + duration +
                 ", startTime=" + startTime +
                 '}';

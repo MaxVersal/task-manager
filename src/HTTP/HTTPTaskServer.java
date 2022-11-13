@@ -1,10 +1,12 @@
 package HTTP;
 
+import KV.KVServer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import manager.HTTPTaskManager;
 import manager.Managers;
 import manager.TaskManager;
 import tasks.*;
@@ -28,14 +30,27 @@ public class HTTPTaskServer {
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
     private static Gson gson = new Gson();
+    private static HttpServer server;
 
+    private KVServer kvServer;
 
-    public static void main(String[] args) throws IOException {
-        HttpServer server = HttpServer.create();
+    public HTTPTaskServer() throws IOException {
+        server = HttpServer.create();
         server.bind(new InetSocketAddress(PORT), 0);
         server.createContext("/tasks", new TaskHandler());
-        server.start();
         System.out.println("Сервер запущен на хосту 8081");
+    }
+
+    public void start() throws IOException {
+        server.start();
+        kvServer.start();
+        System.out.println("Запустили ТаскСервер на порту " + PORT);
+        System.out.println("Адрес: http://localhost:" +  PORT);
+    }
+
+    public void stop() {
+        server.stop(0);
+        System.out.println("Остановили TaskServer");
     }
     static class TaskHandler implements HttpHandler {
         @Override
@@ -104,19 +119,18 @@ public class HTTPTaskServer {
                 case "POST":
                     if (array[2].equals("task")) {
                         System.out.println("кто-то постит таск");
-                        String body = gson.toJson(new String(httpExchange.getRequestBody().readAllBytes(), DEFAULT_CHARSET));
-                        System.out.println(body);
+                        String body = new String(httpExchange.getRequestBody().readAllBytes(), DEFAULT_CHARSET);
                         Task task1 = gson.fromJson(body, Task.class);
                         System.out.println(task1);
                         manager.addTask(task1);
                     } else if (array[2].equals("subtask")){
-                        String body = gson.toJson(new String(httpExchange.getRequestBody().readAllBytes(), DEFAULT_CHARSET));
+                        String body = new String(httpExchange.getRequestBody().readAllBytes(), DEFAULT_CHARSET);
                         System.out.println(body);
                         SubTask task1 = gson.fromJson(body, SubTask.class);
                         System.out.println(task1);
                         manager.addTask(task1);
                     } else if (array[2].equals("epic")) {
-                        String body = gson.toJson(new String(httpExchange.getRequestBody().readAllBytes(), DEFAULT_CHARSET));
+                        String body = new String(httpExchange.getRequestBody().readAllBytes(), DEFAULT_CHARSET);
                         EpicTask epicTask = gson.fromJson(body, EpicTask.class);
                         System.out.println(epicTask);
                         manager.addEpicTask(epicTask);

@@ -11,7 +11,7 @@ public class Task implements Comparable<Task> {
 
     protected Progress progress;
 
-    protected TypeOfTask type = TypeOfTask.TASK;
+    protected TypeOfTask type;
 
     public Task(String title, String description, int id, Progress progress, TypeOfTask type, Duration duration, LocalDateTime startTime) {
         this.title = title;
@@ -21,6 +21,7 @@ public class Task implements Comparable<Task> {
         this.type = type;
         this.duration = duration;
         this.startTime = startTime;
+        type = TypeOfTask.TASK;
     }
 
     public Duration getDuration() {

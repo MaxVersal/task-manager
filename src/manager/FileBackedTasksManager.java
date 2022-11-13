@@ -71,7 +71,7 @@ public class FileBackedTasksManager extends manager.InMemoryTaskManager {
         return tasksManager;
     }
 
-    private void save() throws ManagerSaveException{
+    protected void save() throws ManagerSaveException{
         //запишем файл в строку через bufferedwriter(new filewriter(file)
         try(BufferedWriter bf = new BufferedWriter(new FileWriter(file.toFile()))){
             //записать в файл заголовок
@@ -176,52 +176,4 @@ public class FileBackedTasksManager extends manager.InMemoryTaskManager {
         return super.getTaskById(id);
     }
 
-    public static void main(String[] args) throws IOException {
-        Path path = Paths.get(".\\history.csv");
-        FileBackedTasksManager fbtm = new FileBackedTasksManager(path);
-
-        EpicTask epicTask = new EpicTask("Продукты", "Сходить в магазин", Progress.NEW);
-
-
-        SubTask subTask = new SubTask("Sub",
-                "description",
-                Progress.IN_PROGRESS,
-                LocalDateTime.of(2022,1,1, 10, 30),
-                Duration.ofMinutes(20), 1);
-
-        fbtm.addEpicTask(epicTask);
-        fbtm.addSubTask(subTask);
-
-        fbtm.getEpicTaskById(epicTask.getId());
-        fbtm.getEpicTaskById(epicTask.getId());
-
-        fbtm.getSubTaskById(subTask.getId());
-
-        System.out.print((fbtm.getHistory()));
-
-        FileBackedTasksManager fbtm1 = FileBackedTasksManager.load(path);
-        System.out.println("\n");
-
-        System.out.println(fbtm1.getHistory());
-
-        for (Integer id : fbtm.getEpicTasks().keySet()){
-            EpicTask epic = fbtm.getEpicTaskById(id);
-            EpicTask epic1 = fbtm1.getEpicTaskById(id);
-            if (epic.equals(epic1)){
-                System.out.println("Эпики равны" + "\n");
-            } else {
-                System.out.println("Не равны");
-            }
-        }
-        for (Integer id : fbtm.getSubTasks().keySet()){
-            SubTask sb = fbtm.getSubTaskById(id);
-            SubTask sb1 = fbtm1.getSubTaskById(id);
-            if (sb.equals(sb1)){
-                System.out.println("Сабы равны" + "\n");
-            } else {
-                System.out.println("Не равны");
-            }
-        }
-
-    }
 }
